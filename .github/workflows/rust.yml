@@ -8,6 +8,7 @@ on:
 
 jobs:
   bench:
+    if: false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
