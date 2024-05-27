@@ -45,6 +45,7 @@ fn bench_random(c: &mut Criterion) {
 
         group.finish()
     }
+    #[cfg(test)]
     {
         let sizes_and_fns: [(usize, &IndexFn, &IndexFn); 5] = [
             (1, &index_array_random_stack_1, &index_array_random_rodata_1),
