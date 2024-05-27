@@ -11,8 +11,10 @@ fn main() {
     let mut out = String::with_capacity(4096);
     let sizes = [32, 64, 128, 256];
     for size in sizes {
+        // use the same backing array for rodata and stack variant.
+        // LLVM don't merge the same array across different fns.
+        // see <https://rust.godbolt.org/z/Y8qfW16Y7>.
         let vec1: Vec<u8> = (0..size).map(|_| rng.gen_range(0..=255)).collect();
-        let vec2: Vec<u8> = (0..size).map(|_| rng.gen_range(0..=255)).collect();
 
         let fn_name_stack = format!("index_array_random_stack_{size}");
         let fn_name_rodata = format!("index_array_random_rodata_{size}");
@@ -25,7 +27,7 @@ fn main() {
             }}
 
             pub fn {fn_name_rodata}(x: usize)-> u8 {{
-                let arr: [u8; {size}] = *&{vec2:?};
+                let arr: [u8; {size}] = *&{vec1:?};
                 arr[x]
             }}
         "

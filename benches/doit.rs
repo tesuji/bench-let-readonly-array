@@ -13,21 +13,20 @@ fn bench_medium_repeat(c: &mut Criterion) {
     let r = r();
 
     // let mut rng = rand::thread_rng();
-    let sizes_and_fns: [(usize, &dyn Fn(usize) -> u8); 4] = [
-        (32, &index_array_random_stack_32),
-        (64, &index_array_random_stack_64),
-        (128, &index_array_random_stack_128),
-        (256, &index_array_random_stack_256),
+    type IndexFn = dyn Fn(usize) -> u8;
+    let sizes_and_fns: [(usize, &IndexFn, &IndexFn); 4] = [
+        (32, &index_array_random_stack_32, &index_array_random_rodata_32),
+        (64, &index_array_random_stack_64, &index_array_random_rodata_64),
+        (128, &index_array_random_stack_128, &index_array_random_rodata_128),
+        (256, &index_array_random_stack_256, &index_array_random_rodata_256),
     ];
 
-    let mut group = c.benchmark_group("[medium array stack]");
+    let mut group = c.benchmark_group("medium_array");
 
-    for (size, func) in sizes_and_fns {
+    for (size, on_stack, on_rodata) in sizes_and_fns {
         let x = r % size;
-        group.bench_function(format!("array random stack {size}"), |b| b.iter(|| func(x)));
-        // group.bench_with_input(BenchmarkId::new("repeat stack", size), &size, |b, x| {
-        //     b.iter(|| func(*x))
-        // });
+        group.bench_function(format!("stack_{size}"), |b| b.iter(|| on_stack(x)));
+        group.bench_function(format!("rodata_{size}"), |b| b.iter(|| on_rodata(x)));
     }
 
     group.finish()
