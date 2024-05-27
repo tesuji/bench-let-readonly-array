@@ -1,7 +1,7 @@
 use bench_lea_mov_array::*;
-use criterion::BenchmarkId;
+// use criterion::BenchmarkId;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use rand::Rng;
+// use rand::Rng;
 
 criterion_main!(benches);
 
@@ -14,17 +14,17 @@ fn bench_medium_repeat(c: &mut Criterion) {
 
     // let mut rng = rand::thread_rng();
     let sizes_and_fns: [(usize, &dyn Fn(usize) -> u8); 4] = [
-        (32, &index_array_repeat_stack_32),
-        (64, &index_array_repeat_stack_64),
-        (128, &index_array_repeat_stack_128),
-        (256, &index_array_repeat_stack_256),
+        (32, &index_array_random_stack_32),
+        (64, &index_array_random_stack_64),
+        (128, &index_array_random_stack_128),
+        (256, &index_array_random_stack_256),
     ];
 
     let mut group = c.benchmark_group("[medium array stack]");
 
     for (size, func) in sizes_and_fns {
         let x = r % size;
-        group.bench_function(format!("repeat stack {size}"), |b| b.iter(|| func(x)));
+        group.bench_function(format!("array random stack {size}"), |b| b.iter(|| func(x)));
         // group.bench_with_input(BenchmarkId::new("repeat stack", size), &size, |b, x| {
         //     b.iter(|| func(*x))
         // });
