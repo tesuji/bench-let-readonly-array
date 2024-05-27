@@ -1,8 +1,8 @@
+use rand::Rng;
 use std::fmt::Write as _;
 use std::fs::File;
 use std::io::Write as _;
 use std::path::Path;
-    use rand::Rng;
 
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
@@ -16,7 +16,7 @@ fn main() {
     let mut rng = rand::thread_rng();
 
     let mut out = String::with_capacity(4096);
-    let sizes = [32, 64, 128, 256];
+    let sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256];
     for size in sizes {
         // use the same backing array for rodata and stack variant.
         // LLVM don't merge the same array across different fns.
