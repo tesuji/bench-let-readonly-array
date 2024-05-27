@@ -45,28 +45,4 @@ fn bench_random(c: &mut Criterion) {
 
         group.finish()
     }
-    #[cfg(test)]
-    {
-        let sizes_and_fns: [(usize, &IndexFn, &IndexFn); 5] = [
-            (1, &index_array_random_stack_1, &index_array_random_rodata_1),
-            (2, &index_array_random_stack_2, &index_array_random_rodata_2),
-            (4, &index_array_random_stack_4, &index_array_random_rodata_4),
-            (8, &index_array_random_stack_8, &index_array_random_rodata_8),
-            (
-                16,
-                &index_array_random_stack_16,
-                &index_array_random_rodata_16,
-            ),
-        ];
-
-        let mut group = c.benchmark_group("small_array");
-
-        for (size, on_stack, on_rodata) in sizes_and_fns {
-            let x = r % size;
-            group.bench_function(format!("stack_{size}"), |b| b.iter(|| on_stack(x)));
-            group.bench_function(format!("rodata_{size}"), |b| b.iter(|| on_rodata(x)));
-        }
-
-        group.finish()
-    }
 }

@@ -16,7 +16,11 @@ fn main() {
     let mut rng = rand::thread_rng();
 
     let mut out = String::with_capacity(4096);
-    let sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256];
+    let sizes = [
+        // size < 16, there is no difference as llvm inlines all arrays
+        // 1, 2, 4, 8, 16,
+        32, 64, 128, 256,
+    ];
     for size in sizes {
         // use the same backing array for rodata and stack variant.
         // LLVM don't merge the same array across different fns.
