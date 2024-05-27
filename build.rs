@@ -9,9 +9,9 @@ fn main() {
 
     let path = Path::new("src/medium_array.rs");
 
-    // if path.is_file() {
-    //     return;
-    // }
+    if path.is_file() {
+        return;
+    }
 
     let mut rng = rand::thread_rng();
 
