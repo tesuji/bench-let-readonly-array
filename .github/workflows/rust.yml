@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        build: [linux-amd64, linux32, macos, win32, win64, mingw32, mingw64]
+        build: [linux-amd64, linux32, macos, win64]
         include:
           - build: linux-amd64
             os: ubuntu-latest
@@ -22,18 +22,9 @@ jobs:
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-          - build: win32
-            os: windows-2016
-            target: i686-pc-windows-msvc
           - build: win64
             os: windows-latest
             target: x86_64-pc-windows-msvc
-          - build: mingw32
-            os: windows-latest
-            target: i686-pc-windows-gnu
-          - build: mingw64
-            os: windows-latest
-            target: x86_64-pc-windows-gnu
     steps:
     - uses: actions/checkout@v4
 
