@@ -6,6 +6,13 @@ use std::path::Path;
 
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
+
+    let path = Path::new("src/medium_array.rs");
+
+    if path.is_file() {
+        return;
+    }
+
     let mut rng = rand::thread_rng();
 
     let mut out = String::with_capacity(4096);
@@ -33,7 +40,6 @@ fn main() {
         "
         );
     }
-    let path = Path::new("src/medium_array.rs");
     let mut file = File::create(path).unwrap();
     file.write_all(out.as_bytes()).unwrap();
 }
