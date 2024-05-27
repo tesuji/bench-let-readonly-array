@@ -3,9 +3,9 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 criterion_main!(benches);
 
-criterion_group!(benches, bench_medium_random);
+criterion_group!(benches, bench_random);
 
-fn bench_medium_random(c: &mut Criterion) {
+fn bench_random(c: &mut Criterion) {
     // LCG constants from https://en.wikipedia.org/wiki/Numerical_Recipes.
     let r = black_box(|| 0_usize.wrapping_mul(1664525).wrapping_add(1013904223));
     let r = r();
